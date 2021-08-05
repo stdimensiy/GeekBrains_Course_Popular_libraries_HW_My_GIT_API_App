@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">My GIT API App</string>
+    <string name="ImageView_contentDescription_go_to_details_user">Аватар пользователя</string>
+    <string name="textView_default_login_user_for_item_holder">Логин пользователя</string>
+    <string name="default_text_top_string_plug">Полное имя пользователя (ФИО)</string>
+    <string name="textView_default_center_string_stub">Строка статуса пользователя</string>
+    <string name="ImageView_contentDescription_give_a_rating">Особая отметка</string>
+    <string name="textView_default_bottom_string_for_item_holder">Нижняя строка карточки</string>
+    <string name="ImageView_contentDescription_add_to_favorites">Иконка статуса нахождения в избранном / отслеживаемом</string>
 </resources>
