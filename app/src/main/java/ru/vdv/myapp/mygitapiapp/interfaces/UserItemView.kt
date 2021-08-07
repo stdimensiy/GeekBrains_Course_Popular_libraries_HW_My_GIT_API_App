@@ -1,7 +1,7 @@
 package ru.vdv.myapp.mygitapiapp.interfaces
 
 /**
- * ИНтерфейс элементов списка Users
+ * Интерфейс элементов списка Users
  */
 
 interface UserItemView : IItemView {

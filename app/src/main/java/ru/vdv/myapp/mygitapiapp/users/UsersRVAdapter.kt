@@ -1,4 +1,4 @@
-package ru.vdv.myapp.mygitapiapp
+package ru.vdv.myapp.mygitapiapp.users
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -20,7 +20,7 @@ class UsersRVAdapter(val presenter: IUserListPresenter) :
         }
     }
 
-    override fun onBindViewHolder(holder: UsersRVAdapter.ViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         presenter.bindView(holder.apply { pos = position })
 
     override fun getItemCount(): Int = presenter.getCount()
