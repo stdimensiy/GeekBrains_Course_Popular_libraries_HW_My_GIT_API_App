@@ -11,7 +11,8 @@
 
 - Текущий результат (презентация)
 - <p align="center">
-  <img src="https://github.com/stdimensiy/GeekBrains_Course_Popular_libraries_HW_My_GIT_API_App/blob/master/snapshots/MyGit_1.jpg" width="150" title="Домашний фрагмент">   
+  <img src="https://github.com/stdimensiy/GeekBrains_Course_Popular_libraries_HW_My_GIT_API_App/blob/master/snapshots/MyGit_1.jpg" width="150" title="Домашний фрагмент">
+  <img src="https://github.com/stdimensiy/GeekBrains_Course_Popular_libraries_HW_My_GIT_API_App/blob/master/snapshots/MyGit_userInfo.jpg" width="150" title="Домашний фрагмент">
 </p>    
 
 ---
@@ -19,7 +20,7 @@
 - Задачи
 - [X] ***Задача №1.1.***    Создать новый проект, созадть приложение на основе кода приведенного в
   методичке".
-- [ ] ***Задача №1.2.***    Реализовать экран пользователя, на котором отобразить его логин. Переход
+- [X] ***Задача №1.2.***    Реализовать экран пользователя, на котором отобразить его логин. Переход
   на экран осуществите по клику на пользователя в списке через router.navigateTo.
 - [X] ***Задача №1.3.***    На основе материала урока реализовать single-Activity-приложение,
   реализующее MVP через Moxy, а навигацию — с применением Cicerone, подготовить структуру для
@@ -28,7 +29,7 @@
 ### Отчет о выполнении:
 ---    
 :heavy_check_mark: ***Задание №1.1.*** - Выполнено.-    
-:clock2: ***Задание №1.2.*** - Выполняется.-    
+:heavy_check_mark: ***Задание №1.2.*** - Выполнено.-    
 :heavy_check_mark: ***Задание №1.3.*** - Выполнено.-    
 
 ---   

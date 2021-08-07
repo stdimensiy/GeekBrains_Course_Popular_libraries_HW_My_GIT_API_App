@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imageView_user_avatar"
+        android:layout_width="330dp"
+        android:layout_height="306dp"
+        android:contentDescription="@string/ImageView_contentDescription_go_to_details_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user_plug" />
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_default_login_user_for_item_holder"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_user_avatar" />
+
+    <TextView
+        android:id="@+id/textViewTopString"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/default_text_top_string_plug"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_login" />
+
+    <TextView
+        android:id="@+id/textViewCenterString"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_default_center_string_stub"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTopString" />
+
+    <ImageView
+        android:id="@+id/imageViewRating"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:contentDescription="@string/ImageView_contentDescription_give_a_rating"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewBottomString"
+        app:layout_constraintStart_toStartOf="@+id/tv_login"
+        app:layout_constraintTop_toTopOf="@+id/textViewBottomString"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
+    <TextView
+        android:id="@+id/textViewBottomString"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_default_bottom_string_for_item_holder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageViewRating"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCenterString" />
+
+    <ImageView
+        android:id="@+id/imageView_ingBtn_addToFavorites"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/ImageView_contentDescription_add_to_favorites"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_user_avatar"
+        app:layout_constraintTop_toTopOf="@+id/imageView_user_avatar"
+        app:srcCompat="@drawable/ic_baseline_track_changes_24" />
+</androidx.constraintlayout.widget.ConstraintLayout>
