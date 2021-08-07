@@ -2,6 +2,7 @@ package ru.vdv.myapp.mygitapiapp.users
 
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
+import ru.vdv.myapp.mygitapiapp.AndroidScreens
 import ru.vdv.myapp.mygitapiapp.interfaces.IUserListPresenter
 import ru.vdv.myapp.mygitapiapp.interfaces.UserItemView
 import ru.vdv.myapp.mygitapiapp.interfaces.UsersView
@@ -31,16 +32,14 @@ class UsersPresenter(
         super.onFirstViewAttach()
         viewState.init()
         loadData()
-
-        usersListPresenter.itemClickListener = { itemView ->
-            //TODO: переход на экран пользователя c помощью router.navigateTo должен быть реализован в рамках ДЗ
-
-        }
     }
 
     fun loadData() {
         val users = usersRepo.getUsers()
         usersListPresenter.users.addAll(users)
+        usersListPresenter.itemClickListener = { itemView ->
+            router.navigateTo(AndroidScreens().userInfo(users[itemView.pos].id))
+        }
         viewState.updateList()
     }
 

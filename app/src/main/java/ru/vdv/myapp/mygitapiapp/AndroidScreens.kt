@@ -3,6 +3,7 @@ package ru.vdv.myapp.mygitapiapp
 import com.github.terrakok.cicerone.Screen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import ru.vdv.myapp.mygitapiapp.interfaces.IScreens
+import ru.vdv.myapp.mygitapiapp.userInfo.UserInfoFragment
 import ru.vdv.myapp.mygitapiapp.users.UsersFragment
 
 /**
@@ -16,4 +17,12 @@ class AndroidScreens : IScreens {
      *@return возвращает экран (Screen) соответствующего фрагмента
      */
     override fun users(): Screen = FragmentScreen { UsersFragment.newInstance() }
+
+    /**
+     *Объявление экрана детализации информации о пользователе
+     *@param userId - уникальный идентификатор пользователя в базе (Int)
+     *@return возвращает экран (Screen) соответствующего фрагмента
+     */
+
+    override fun userInfo(userId: Int): Screen = FragmentScreen { UserInfoFragment.newInstance(userId) }
 }
