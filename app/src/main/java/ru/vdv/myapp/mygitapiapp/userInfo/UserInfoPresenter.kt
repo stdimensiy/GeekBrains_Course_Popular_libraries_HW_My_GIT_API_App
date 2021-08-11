@@ -11,14 +11,14 @@ class UserInfoPresenter(
     val router: Router
 ) : MvpPresenter<UserInfoView>() {
 
-    override fun onFirstViewAttach() {
-        val currentUser = githubUsersRepo.getUsers().firstOrNull { it.id == userId }
-        currentUser?.let { viewState.showLogin(it.login) }
-        currentUser?.let { viewState.showTopString("Заглушка верхей строки")
-            (it.login) }
-        currentUser?.let { viewState.showCenterString(it.htmlUrl) }
-        currentUser?.let { viewState.showBottomString("Заглушка нижней строки") }
-    }
+//    override fun onFirstViewAttach() {
+//        val currentUser = githubUsersRepo.getUsers().firstOrNull { it.id == userId }
+//        currentUser?.let { viewState.showLogin(it.login) }
+//        currentUser?.let { viewState.showTopString("Заглушка верхей строки")
+//            (it.login) }
+//        currentUser?.let { viewState.showCenterString(it.htmlUrl) }
+//        currentUser?.let { viewState.showBottomString("Заглушка нижней строки") }
+//    }
 
     fun backPressed(): Boolean {
         router.exit()

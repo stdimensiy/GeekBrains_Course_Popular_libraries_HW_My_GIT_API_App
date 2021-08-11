@@ -1,6 +1,11 @@
 package ru.vdv.myapp.mygitapiapp.users
 
+import android.util.Log
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.vdv.myapp.mygitapiapp.AndroidScreens
 import ru.vdv.myapp.mygitapiapp.interfaces.IUserListPresenter
@@ -27,24 +32,55 @@ class UsersPresenter(
     }
 
     val usersListPresenter = UsersListPresenter()
+    val disposables = CompositeDisposable()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        Log.d("Моя проверка", "Сработал onFirstViewAttach")
         viewState.init()
-        loadData()
+        usersRepo.getUsers()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<List<GithubUser>> {
+                override fun onSubscribe(d: Disposable?) {
+                    disposables.add(d)
+                }
+
+                override fun onSuccess(t: List<GithubUser>?) {
+                    Log.d("Моя проверка", "Сработал")
+                    if (t != null) {
+                        usersListPresenter.users.addAll(t)
+                        usersListPresenter.itemClickListener = { itemView ->
+                            router.navigateTo(AndroidScreens().userInfo(t[itemView.pos].id))
+                        }
+                        Log.d("Моя проверка", usersListPresenter.users.size.toString())
+                        viewState.updateList()
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.d("Моя проверка", "Ошибка")
+                }
+            })
+
+        //loadData()
     }
 
-    fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
-        usersListPresenter.itemClickListener = { itemView ->
-            router.navigateTo(AndroidScreens().userInfo(users[itemView.pos].id))
-        }
-        viewState.updateList()
-    }
+//    fun loadData() {
+//        val users = usersRepo.getUsers()
+//        usersListPresenter.users.addAll(users)
+//        usersListPresenter.itemClickListener = { itemView ->
+//            router.navigateTo(AndroidScreens().userInfo(users[itemView.pos].id))
+//        }
+//        viewState.updateList()
+//    }
 
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        Log.d("Моя проверка", "Зачистка")
+        disposables.clear()
     }
 }

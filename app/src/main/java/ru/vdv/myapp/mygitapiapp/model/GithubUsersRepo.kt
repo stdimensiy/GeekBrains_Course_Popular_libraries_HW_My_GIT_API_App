@@ -1,5 +1,13 @@
 package ru.vdv.myapp.mygitapiapp.model
 
+import android.util.Log
+import io.reactivex.rxjava3.core.Single
+import java.util.concurrent.TimeUnit
+
+/**
+ * С внедрением RxJava данный класс теперь стал работать как Producer
+ */
+
 class GithubUsersRepo {
     private val repositories = listOf(
         GithubUser(
@@ -264,8 +272,19 @@ class GithubUsersRepo {
         ),
     )
 
-    fun getUsers(): List<GithubUser> {
-        return repositories
+    /**
+     * Имитирует сетевой запрос поэтому (согласно рекомендаций)
+     * применет тип Single который эмити Один объект или выдает ошибку.
+     * Могласно API GitHub разовая выдача коллекции пользователей содержит по умолчанию 30 элементов
+     * поэтому передаем их какраз на разбор единой коллекцией
+     *
+     * .delay(5L, TimeUnit.SECONDS) имитирует задержку на выполнение сетевого запроса
+     */
+    fun getUsers(): Single<List<GithubUser>> {
+        Log.d("Моя проверка", "ЗАПРОС пошел!")
+
+        return Single.just(repositories).delay(5L, TimeUnit.SECONDS)
     }
+
 
 }
