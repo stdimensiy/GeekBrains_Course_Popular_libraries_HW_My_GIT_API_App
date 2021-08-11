@@ -9,6 +9,41 @@ import java.util.concurrent.TimeUnit
  */
 
 class GithubUsersRepo {
+    private val userPlug = GithubUserAdvanced(
+        "mojombo",
+        1,
+        "MDQ6VXNlcjE=",
+        "https://avatars.githubusercontent.com/u/1?v=4",
+        "",
+        "https://api.github.com/users/mojombo",
+        "https://github.com/mojombo",
+        "https://api.github.com/users/mojombo/followers",
+        "https://api.github.com/users/mojombo/following{/other_user}",
+        "https://api.github.com/users/mojombo/gists{/gist_id}",
+        "https://api.github.com/users/mojombo/starred{/owner}{/repo}",
+        "https://api.github.com/users/mojombo/subscriptions",
+        "https://api.github.com/users/mojombo/orgs",
+        "https://api.github.com/users/mojombo/repos",
+        "https://api.github.com/users/mojombo/events{/privacy}",
+        "https://api.github.com/users/mojombo/received_events",
+        "User",
+        false,
+        "Nikolas Papadopolas",
+        "Sam Po Sebe",
+        "Https://souos.ru",
+        "St-Petersburg",
+        "StDimensiy@yandex.ru",
+        true,
+        "Nemnogo o sebe",
+        "StDimensiy",
+        32,
+        2,
+        20,
+        5,
+        "2020-10-26T19:49:06Z",
+        "2021-08-11T20:44:38Z"
+    )
+
     private val repositories = listOf(
         GithubUser(
             "mojombo",
@@ -284,6 +319,12 @@ class GithubUsersRepo {
         Log.d("Моя проверка", "ЗАПРОС пошел!")
 
         return Single.just(repositories).delay(5L, TimeUnit.SECONDS)
+    }
+
+    fun getUserById(id: Int): Single<GithubUserAdvanced> {
+        Log.d("Моя проверка", "ЗАПРОС выдачу расширенной инфорсвции о пользователе пошел!")
+
+        return Single.just(userPlug).delay(3L, TimeUnit.SECONDS)
     }
 
 
