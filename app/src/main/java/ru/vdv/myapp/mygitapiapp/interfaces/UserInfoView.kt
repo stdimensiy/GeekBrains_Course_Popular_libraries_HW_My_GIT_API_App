@@ -9,7 +9,7 @@ import moxy.viewstate.strategy.StateStrategyType
  */
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface UserInfoView : ProgressView, MvpView {
+interface UserInfoView : ProgressView, ErrorView, MvpView {
     /**
      * Выводит логин пользователя
      */

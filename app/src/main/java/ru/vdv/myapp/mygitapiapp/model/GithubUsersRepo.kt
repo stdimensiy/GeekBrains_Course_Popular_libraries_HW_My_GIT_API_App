@@ -1,6 +1,5 @@
 package ru.vdv.myapp.mygitapiapp.model
 
-import android.util.Log
 import io.reactivex.rxjava3.core.Single
 import java.util.concurrent.TimeUnit
 
@@ -310,22 +309,30 @@ class GithubUsersRepo {
     /**
      * Имитирует сетевой запрос поэтому (согласно рекомендаций)
      * применет тип Single который эмити Один объект или выдает ошибку.
-     * Могласно API GitHub разовая выдача коллекции пользователей содержит по умолчанию 30 элементов
+     * Cогласно API GitHub разовая выдача коллекции пользователей содержит по умолчанию 30 элементов
      * поэтому передаем их какраз на разбор единой коллекцией
      *
      * .delay(5L, TimeUnit.SECONDS) имитирует задержку на выполнение сетевого запроса
      */
     fun getUsers(): Single<List<GithubUser>> {
-        Log.d("Моя проверка", "ЗАПРОС пошел!")
-
         return Single.just(repositories).delay(5L, TimeUnit.SECONDS)
     }
 
+    /**
+     * Имитирует сетевой запрос поэтому (согласно рекомендаций)
+     * применет тип Single который эмити Один объект или выдает ошибку.
+     * Результат запроса - объект GithubUserAdvanced (с расширенным набором публичных полей)
+     * дополнительно (сознательно) реализована выдача ошибки при обращении к пользователю с
+     * идентификатром равным 3
+     */
     fun getUserById(id: Int): Single<GithubUserAdvanced> {
-        Log.d("Моя проверка", "ЗАПРОС выдачу расширенной инфорсвции о пользователе пошел!")
-
-        return Single.just(userPlug).delay(3L, TimeUnit.SECONDS)
+        // для тестирования выдаю конкретный результат без привязки id (пока)
+        val ss: Single<GithubUserAdvanced>
+        if (id == 3) {
+            ss = Single.error(Throwable("Запланированная ошибка"))
+        } else {
+            ss = Single.just(userPlug).delay(3L, TimeUnit.SECONDS)
+        }
+        return ss
     }
-
-
 }

@@ -60,11 +60,19 @@ class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, BackButtonListene
     }
 
     override fun showProgressBar() {
-        this.vb?.progressBar?.visibility  = View.VISIBLE
+        this.vb?.progressBar?.visibility = View.VISIBLE
     }
 
     override fun hideProgressBar() {
-        vb?.progressBar?.visibility  = View.GONE
+        vb?.progressBar?.visibility = View.GONE
+    }
+
+    override fun showErrorBar() {
+        this.vb?.imageViewError?.visibility = View.VISIBLE
+    }
+
+    override fun hideErrorBar() {
+        this.vb?.imageViewError?.visibility = View.GONE
     }
 
 }

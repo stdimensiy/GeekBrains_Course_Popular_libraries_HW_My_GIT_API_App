@@ -24,5 +24,6 @@ class AndroidScreens : IScreens {
      *@return возвращает экран (Screen) соответствующего фрагмента
      */
 
-    override fun userInfo(userId: Int): Screen = FragmentScreen { UserInfoFragment.newInstance(userId) }
+    override fun userInfo(userId: Int): Screen =
+        FragmentScreen { UserInfoFragment.newInstance(userId) }
 }

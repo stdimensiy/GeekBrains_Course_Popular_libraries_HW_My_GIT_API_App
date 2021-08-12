@@ -1,6 +1,5 @@
 package ru.vdv.myapp.mygitapiapp.users
 
-import android.util.Log
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
@@ -36,7 +35,6 @@ class UsersPresenter(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        Log.d("Моя проверка", "Сработал onFirstViewAttach")
         viewState.init()
         viewState.showProgressBar()
         usersRepo.getUsers()
@@ -47,34 +45,23 @@ class UsersPresenter(
                 }
 
                 override fun onSuccess(t: List<GithubUser>?) {
-                    Log.d("Моя проверка", "Сработал")
                     if (t != null) {
                         viewState.hideProgressBar()
                         usersListPresenter.users.addAll(t)
                         usersListPresenter.itemClickListener = { itemView ->
                             router.navigateTo(AndroidScreens().userInfo(t[itemView.pos].id))
                         }
-                        Log.d("Моя проверка", usersListPresenter.users.size.toString())
                         viewState.updateList()
                     }
                 }
 
                 override fun onError(e: Throwable?) {
-                    Log.d("Моя проверка", "Ошибка")
+                    viewState.hideProgressBar()
+                    // тестирование получения ошибки отработано во фрагменте UserInfoFragment
+                    // на данном этапе отработка ошибки пока будет игнорироана
                 }
             })
-
-        //loadData()
     }
-
-//    fun loadData() {
-//        val users = usersRepo.getUsers()
-//        usersListPresenter.users.addAll(users)
-//        usersListPresenter.itemClickListener = { itemView ->
-//            router.navigateTo(AndroidScreens().userInfo(users[itemView.pos].id))
-//        }
-//        viewState.updateList()
-//    }
 
     fun backPressed(): Boolean {
         router.exit()
@@ -82,7 +69,6 @@ class UsersPresenter(
     }
 
     override fun onDestroy() {
-        Log.d("Моя проверка", "Зачистка")
         disposables.clear()
     }
 }

@@ -1,6 +1,5 @@
 package ru.vdv.myapp.mygitapiapp.userInfo
 
-import android.util.Log
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
@@ -20,6 +19,7 @@ class UserInfoPresenter(
 
     override fun onFirstViewAttach() {
         if (userId != null) {
+            viewState.hideErrorBar()
             viewState.showProgressBar()
             githubUsersRepo
                 .getUserById(userId)
@@ -30,30 +30,21 @@ class UserInfoPresenter(
                     }
 
                     override fun onSuccess(t: GithubUserAdvanced?) {
-                        Log.d("Моя проверка", "Сработал")
                         if (t != null) {
                             t.let { viewState.showLogin(it.login) }
                             viewState.showTopString("Заглушка верхей строки")
                             t.let { viewState.showCenterString(it.htmlUrl) }
                             viewState.showBottomString("Заглушка нижней строки")
                             viewState.hideProgressBar()
-                            Log.d("Моя проверка", t.toString())
                         }
                     }
 
                     override fun onError(e: Throwable?) {
-                        Log.d("Моя проверка", "Ошибка")
+                        viewState.hideProgressBar()
+                        viewState.showErrorBar()
                     }
                 })
         }
-
-
-//        val currentUser = githubUsersRepo.getUsers().firstOrNull { it.id == userId }
-//        currentUser?.let { viewState.showLogin(it.login) }
-//        currentUser?.let { viewState.showTopString("Заглушка верхей строки")
-//            (it.login) }
-//        currentUser?.let { viewState.showCenterString(it.htmlUrl) }
-//        currentUser?.let { viewState.showBottomString("Заглушка нижней строки") }
     }
 
     fun backPressed(): Boolean {
@@ -62,7 +53,6 @@ class UserInfoPresenter(
     }
 
     override fun onDestroy() {
-        Log.d("Моя проверка", "Зачистка")
         disposables.clear()
     }
 }

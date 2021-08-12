@@ -45,11 +45,11 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     override fun showProgressBar() {
-        this.vb?.progressBar?.visibility  = View.VISIBLE
+        this.vb?.progressBar?.visibility = View.VISIBLE
     }
 
     override fun hideProgressBar() {
-        vb?.progressBar?.visibility  = View.GONE
+        vb?.progressBar?.visibility = View.GONE
     }
 
 

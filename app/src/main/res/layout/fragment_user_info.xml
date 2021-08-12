@@ -86,4 +86,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView_user_avatar" />
+
+    <ImageView
+        android:id="@+id/imageView_Error"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="704dp"
+        android:contentDescription="@string/ImageView_contentDescription_error"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView_user_avatar"
+        app:srcCompat="@drawable/ic_twotone_error_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
