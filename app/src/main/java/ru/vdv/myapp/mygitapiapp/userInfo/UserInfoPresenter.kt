@@ -20,6 +20,7 @@ class UserInfoPresenter(
 
     override fun onFirstViewAttach() {
         if (userId != null) {
+            viewState.showProgressBar()
             githubUsersRepo
                 .getUserById(userId)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -32,12 +33,10 @@ class UserInfoPresenter(
                         Log.d("Моя проверка", "Сработал")
                         if (t != null) {
                             t.let { viewState.showLogin(it.login) }
-                            t.let {
-                                viewState.showTopString("Заглушка верхей строки")
-                                (it.login)
-                            }
+                            viewState.showTopString("Заглушка верхей строки")
                             t.let { viewState.showCenterString(it.htmlUrl) }
-                            t.let { viewState.showBottomString("Заглушка нижней строки") }
+                            viewState.showBottomString("Заглушка нижней строки")
+                            viewState.hideProgressBar()
                             Log.d("Моя проверка", t.toString())
                         }
                     }

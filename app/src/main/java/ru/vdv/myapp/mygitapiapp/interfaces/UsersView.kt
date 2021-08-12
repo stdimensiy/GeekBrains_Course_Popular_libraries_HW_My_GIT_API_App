@@ -9,7 +9,7 @@ import moxy.viewstate.strategy.StateStrategyType
  */
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface UsersView : MvpView {
+interface UsersView : MvpView, ProgressView{
     /**
      * Первичная инициализация списка, вызывается при присоединении View к Presenter
      */

@@ -38,6 +38,7 @@ class UsersPresenter(
         super.onFirstViewAttach()
         Log.d("Моя проверка", "Сработал onFirstViewAttach")
         viewState.init()
+        viewState.showProgressBar()
         usersRepo.getUsers()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : SingleObserver<List<GithubUser>> {
@@ -48,6 +49,7 @@ class UsersPresenter(
                 override fun onSuccess(t: List<GithubUser>?) {
                     Log.d("Моя проверка", "Сработал")
                     if (t != null) {
+                        viewState.hideProgressBar()
                         usersListPresenter.users.addAll(t)
                         usersListPresenter.itemClickListener = { itemView ->
                             router.navigateTo(AndroidScreens().userInfo(t[itemView.pos].id))
