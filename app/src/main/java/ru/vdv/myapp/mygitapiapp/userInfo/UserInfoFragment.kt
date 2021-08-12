@@ -2,6 +2,7 @@ package ru.vdv.myapp.mygitapiapp.userInfo
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import moxy.MvpAppCompatFragment
@@ -56,6 +57,22 @@ class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, BackButtonListene
 
     override fun showBottomString(text: String) {
         vb?.textViewBottomString?.text = text
+    }
+
+    override fun showProgressBar() {
+        this.vb?.progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        vb?.progressBar?.visibility = View.GONE
+    }
+
+    override fun showErrorBar() {
+        this.vb?.imageViewError?.visibility = View.VISIBLE
+    }
+
+    override fun hideErrorBar() {
+        this.vb?.imageViewError?.visibility = View.GONE
     }
 
 }

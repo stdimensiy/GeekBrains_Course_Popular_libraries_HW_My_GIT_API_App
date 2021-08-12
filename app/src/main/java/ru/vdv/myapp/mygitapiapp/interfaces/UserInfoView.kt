@@ -9,19 +9,22 @@ import moxy.viewstate.strategy.StateStrategyType
  */
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface UserInfoView: MvpView {
+interface UserInfoView : ProgressView, ErrorView, MvpView {
     /**
      * Выводит логин пользователя
      */
     fun showLogin(text: String)
+
     /**
      * Выводит переданный текст в верхню зарезеркированноу строку информационного листа
      */
     fun showTopString(text: String)
+
     /**
      * Выводит переданный текст в среднюю зарезеркированноу строку информационного листа
      */
     fun showCenterString(text: String)
+
     /**
      * Выводит переданный текст в нижнюю зарезеркированноу строку информационного листа
      */

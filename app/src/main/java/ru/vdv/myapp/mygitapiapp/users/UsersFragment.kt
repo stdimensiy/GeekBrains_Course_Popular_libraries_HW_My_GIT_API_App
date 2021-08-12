@@ -2,6 +2,7 @@ package ru.vdv.myapp.mygitapiapp.users
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
@@ -41,6 +42,14 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun updateList() {
         adapter?.notifyDataSetChanged()
+    }
+
+    override fun showProgressBar() {
+        this.vb?.progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        vb?.progressBar?.visibility = View.GONE
     }
 
 
