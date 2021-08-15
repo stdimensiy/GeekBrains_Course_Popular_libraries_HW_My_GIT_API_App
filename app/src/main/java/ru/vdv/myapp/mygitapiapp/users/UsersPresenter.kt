@@ -63,6 +63,10 @@ class UsersPresenter(
             })
     }
 
+    fun goToImageConverter() {
+        router.navigateTo(AndroidScreens().imageConverter())
+    }
+
     fun backPressed(): Boolean {
         router.exit()
         return true
