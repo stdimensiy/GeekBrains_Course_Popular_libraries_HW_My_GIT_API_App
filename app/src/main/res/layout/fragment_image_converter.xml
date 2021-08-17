@@ -6,34 +6,34 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_image_selection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_choose_image_text"
+        android:text="@string/btn_image_selection_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgView_original_img"
         android:layout_width="237dp"
         android:layout_height="195dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/btn_image_selection"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_start_converting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_start_converse_text"
+        android:text="@string/btn_start_converting_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imgView_original_img" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imgView_converted_img"
         android:layout_width="228dp"
         android:layout_height="207dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_start_converting" />
 
     <Button
         android:id="@+id/btn_abort"
@@ -58,5 +58,5 @@
         android:text="@string/btn_abort_converse_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imgView_converted_img" />
 </androidx.constraintlayout.widget.ConstraintLayout>

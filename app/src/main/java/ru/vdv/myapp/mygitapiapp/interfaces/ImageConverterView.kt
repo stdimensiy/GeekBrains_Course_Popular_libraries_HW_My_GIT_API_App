@@ -11,6 +11,11 @@ import moxy.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ImageConverterView : ProgressView, ErrorView, MvpView {
     /**
+     * Первичная инициализация элементов View при присоединении к Presenter
+     */
+    fun init()
+
+    /**
      * Выводит исходное изображение
      */
     fun showOriginImage(pathImageFile: String)
