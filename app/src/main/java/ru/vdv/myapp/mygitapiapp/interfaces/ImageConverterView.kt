@@ -18,18 +18,15 @@ interface ImageConverterView : ProgressView, ErrorView, MvpView {
 
     /**
      * Выводит исходное изображение
+     * * @param uri - Uri оригинального изображения
      */
     fun showOriginImage(uri: Uri)
 
     /**
      * Выводит конвертированное изображение
+     * @param uri - Uri результирующего изображения
      */
     fun showConvertedImage(uri: Uri)
-
-    /**
-     * Выводит сообщение
-     */
-    fun showMessage(text: String)
 
     /**
      * Делает кнопку старта процесса конвертации активной

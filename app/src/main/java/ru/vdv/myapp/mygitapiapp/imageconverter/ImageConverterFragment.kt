@@ -25,14 +25,25 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
         ImageConverterPresenter(ConverterJpgToPng(requireContext()), App.instance.router)
     }
 
-    //val tempConvertedFile = File.createTempFile("tmpConvert", ".png")
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentImageConverterBinding.inflate(inflater, container, false).also { vb = it }.root
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("Моя проверка", "onActivityResult сработал с параметром хоть както")
+        Log.d("Моя проверка", data?.dataString.toString())
+        if (resultCode == Activity.RESULT_OK && requestCode == 1000) {
+            Log.d(
+                "Моя проверка",
+                "onActivityResult сработал с параметром " + data?.data?.path.toString()
+            )
+            imageUri = data?.data
+            imageUri?.let { presenter.originalImageSelected(it) }
+        }
+    }
 
     // методы интерфейсов
     override fun backPressed(): Boolean = presenter.backPressed()
@@ -53,25 +64,11 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
             Log.d("Моя проверка", "ПОСЛЕ startActivityForResult сработал с параметром ")
         }
         vb?.btnStartConverting?.setOnClickListener {
-            imageUri?.let(presenter::btnStartConvertingPressed)
+            imageUri?.let(presenter::startConvertingPressed)
         }
         vb?.btnAbort?.setOnClickListener {
             Log.d("Моя проверка", "Нажата кнопка отмены")
-            presenter.abortConvertImage()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.d("Моя проверка", "onActivityResult сработал с параметром хоть както")
-        Log.d("Моя проверка", data?.dataString.toString())
-        if (resultCode == Activity.RESULT_OK && requestCode == 1000) {
-            Log.d(
-                "Моя проверка",
-                "onActivityResult сработал с параметром " + data?.data?.path.toString()
-            )
-            imageUri = data?.data
-            imageUri?.let { presenter.originalImageSelected(it) }
+            presenter.abortConvertImagePressed()
         }
     }
 
@@ -83,10 +80,6 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
         vb?.imgViewConvertedImg?.setImageURI(uri)
     }
 
-    override fun showMessage(text: String) {
-        //TODO("Not yet implemented")
-    }
-
     override fun showProgressBar() {
         vb?.progressBar2?.visibility = View.VISIBLE
     }
@@ -96,6 +89,7 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
     }
 
     override fun showErrorBar() {
+        vb?.imgViewConvertedImg?.setImageURI(null)
         vb?.imgViewErrorSign?.visibility = View.VISIBLE
     }
 
@@ -103,23 +97,24 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
         vb?.imgViewErrorSign?.visibility = View.GONE
     }
 
-    override fun btnStartConvertEnable(){
+    override fun btnStartConvertEnable() {
         vb?.btnStartConverting?.isEnabled = true
     }
 
-    override fun btnStartConvertDisabled(){
+    override fun btnStartConvertDisabled() {
         vb?.btnStartConverting?.isEnabled = false
     }
 
-    override fun btnAbortConvertEnabled(){
+    override fun btnAbortConvertEnabled() {
         vb?.btnAbort?.isEnabled = true
     }
 
-    override fun btnAbortConvertDisabled(){
+    override fun btnAbortConvertDisabled() {
         vb?.btnAbort?.isEnabled = false
     }
 
     override fun signAbortConvertShow() {
+        vb?.imgViewConvertedImg?.setImageURI(null)
         vb?.imgViewCancelSign?.visibility = View.VISIBLE
     }
 
@@ -136,6 +131,7 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
     }
 
     override fun signWaitingShow() {
+        vb?.imgViewConvertedImg?.setImageURI(null)
         vb?.imgViewWaitingSign?.visibility = View.VISIBLE
     }
 
