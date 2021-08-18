@@ -2,23 +2,19 @@ package ru.vdv.myapp.mygitapiapp.imageconverter
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.vdv.myapp.mygitapiapp.App
 import ru.vdv.myapp.mygitapiapp.databinding.FragmentImageConverterBinding
 import ru.vdv.myapp.mygitapiapp.interfaces.BackButtonListener
 import ru.vdv.myapp.mygitapiapp.interfaces.ImageConverterView
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.FileOutputStream
+import ru.vdv.myapp.mygitapiapp.model.ConverterJpgToPng
 
 
 class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackButtonListener {
@@ -26,10 +22,10 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
     private var vb: FragmentImageConverterBinding? = null
     private var imageUri: Uri? = null
     private val presenter: ImageConverterPresenter by moxyPresenter {
-        ImageConverterPresenter(App.instance.router)
+        ImageConverterPresenter(ConverterJpgToPng(requireContext()), App.instance.router)
     }
 
-    val tempConvertedFile = File.createTempFile("tmpConvert", ".png")
+    //val tempConvertedFile = File.createTempFile("tmpConvert", ".png")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +38,13 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
     override fun backPressed(): Boolean = presenter.backPressed()
 
     override fun init() {
-        Log.d("Моя проверка", "временный файл создан$tempConvertedFile")
+        hideProgressBar()
+        hideErrorBar()
+        btnStartConvertDisabled()
+        btnAbortConvertDisabled()
+        signGetStartedShow()
+        signAbortConvertHide()
+        signWaitingShow()
         vb?.btnImageSelection?.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/jpg"
@@ -51,22 +53,7 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
             Log.d("Моя проверка", "ПОСЛЕ startActivityForResult сработал с параметром ")
         }
         vb?.btnStartConverting?.setOnClickListener {
-            imageUri?.let {
-                Log.d("Моя проверка", "Нажата кнопка старта конвертации")
-                val fos = FileOutputStream(tempConvertedFile)
-                val bos = BufferedOutputStream(fos)
-                val mim =
-                    MediaStore.Images.Media.getBitmap(requireContext().contentResolver, imageUri)
-                mim.compress(Bitmap.CompressFormat.PNG, 100, bos)
-                bos.close()
-                fos.close()
-                Log.d(
-                    "Моя проверка",
-                    "Вроде как все сработать должно " + tempConvertedFile.toUri()
-                )
-            }
-
-            vb?.imgViewConvertedImg?.setImageURI(tempConvertedFile.toUri())
+            imageUri?.let(presenter::btnStartConvertingPressed)
         }
         vb?.btnAbort?.setOnClickListener {
             Log.d("Моя проверка", "Нажата кнопка отмены")
@@ -84,16 +71,16 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
                 "onActivityResult сработал с параметром " + data?.data?.path.toString()
             )
             imageUri = data?.data
-            vb?.imgViewOriginalImg?.setImageURI(imageUri)
+            imageUri?.let { presenter.originalImageSelected(it) }
         }
     }
 
-    override fun showOriginImage(pathImageFile: String) {
-        //TODO("Not yet implemented")
+    override fun showOriginImage(uri: Uri) {
+        vb?.imgViewOriginalImg?.setImageURI(uri)
     }
 
-    override fun showConvertedImage(pathImageFile: String) {
-        //TODO("Not yet implemented")
+    override fun showConvertedImage(uri: Uri) {
+        vb?.imgViewConvertedImg?.setImageURI(uri)
     }
 
     override fun showMessage(text: String) {
@@ -101,19 +88,58 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
     }
 
     override fun showProgressBar() {
-        //TODO("Not yet implemented")
+        vb?.progressBar2?.visibility = View.VISIBLE
     }
 
     override fun hideProgressBar() {
-        //TODO("Not yet implemented")
+        vb?.progressBar2?.visibility = View.GONE
     }
 
     override fun showErrorBar() {
-        //TODO("Not yet implemented")
+        vb?.imgViewErrorSign?.visibility = View.VISIBLE
     }
 
     override fun hideErrorBar() {
-        //TODO("Not yet implemented")
+        vb?.imgViewErrorSign?.visibility = View.GONE
     }
 
+    override fun btnStartConvertEnable(){
+        vb?.btnStartConverting?.isEnabled = true
+    }
+
+    override fun btnStartConvertDisabled(){
+        vb?.btnStartConverting?.isEnabled = false
+    }
+
+    override fun btnAbortConvertEnabled(){
+        vb?.btnAbort?.isEnabled = true
+    }
+
+    override fun btnAbortConvertDisabled(){
+        vb?.btnAbort?.isEnabled = false
+    }
+
+    override fun signAbortConvertShow() {
+        vb?.imgViewCancelSign?.visibility = View.VISIBLE
+    }
+
+    override fun signAbortConvertHide() {
+        vb?.imgViewCancelSign?.visibility = View.GONE
+    }
+
+    override fun signGetStartedShow() {
+        vb?.imgViewGetStartedSign?.visibility = View.VISIBLE
+    }
+
+    override fun signGetStartedHide() {
+        vb?.imgViewGetStartedSign?.visibility = View.GONE
+    }
+
+    override fun signWaitingShow() {
+        vb?.imgViewWaitingSign?.visibility = View.VISIBLE
+    }
+
+    override fun signWaitingHide() {
+        vb?.imgViewWaitingSign?.visibility = View.GONE
+    }
 }

@@ -1,5 +1,6 @@
 package ru.vdv.myapp.mygitapiapp.interfaces
 
+import android.net.Uri
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
@@ -18,15 +19,65 @@ interface ImageConverterView : ProgressView, ErrorView, MvpView {
     /**
      * Выводит исходное изображение
      */
-    fun showOriginImage(pathImageFile: String)
+    fun showOriginImage(uri: Uri)
 
     /**
      * Выводит конвертированное изображение
      */
-    fun showConvertedImage(pathImageFile: String)
+    fun showConvertedImage(uri: Uri)
 
     /**
      * Выводит сообщение
      */
     fun showMessage(text: String)
+
+    /**
+     * Делает кнопку старта процесса конвертации активной
+     */
+    fun btnStartConvertEnable()
+
+    /**
+     * Деактивирует кнопку старта процесса конвертации
+     */
+    fun btnStartConvertDisabled()
+
+    /**
+     * Делает кнопку отмены процесса конвертации активной
+     */
+    fun btnAbortConvertEnabled()
+
+    /**
+     * Деактивирует кнопку отменты процесса конвертации
+     */
+    fun btnAbortConvertDisabled()
+
+    /**
+     * Показывает заглушку - флажок сигнализирующий о прерывании конвертации
+     */
+    fun signAbortConvertShow()
+
+    /**
+     * Скрывает заглушку - флажок сигнализирующий о прерывании конвертации
+     */
+    fun signAbortConvertHide()
+
+    /**
+     * Показывает заглушку - флажок призывающий начать чтото делать уже
+     */
+    fun signGetStartedShow()
+
+    /**
+     * Скрывает заглушку - флажок призывающий начать чтото делать...
+     */
+    fun signGetStartedHide()
+
+    /**
+     * Показывает заглушку - флажок ожидания действия...
+     */
+    fun signWaitingShow()
+
+    /**
+     * Скрывает заглушку - флажок ожидания действия...
+     */
+    fun signWaitingHide()
 }
