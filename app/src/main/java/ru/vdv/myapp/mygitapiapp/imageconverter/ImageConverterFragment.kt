@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import ru.vdv.myapp.mygitapiapp.databinding.FragmentImageConverterBinding
 import ru.vdv.myapp.mygitapiapp.interfaces.BackButtonListener
 import ru.vdv.myapp.mygitapiapp.interfaces.ImageConverterView
 import ru.vdv.myapp.mygitapiapp.model.ConverterJpgToPng
+import ru.vdv.myapp.mygitapiapp.myschedulers.MySchedulersFactory
 
 
 class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackButtonListener {
@@ -23,7 +23,11 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
     private val vb get() = _vb!!
     private var imageUri: Uri? = null
     private val presenter: ImageConverterPresenter by moxyPresenter {
-        ImageConverterPresenter(ConverterJpgToPng(requireContext()), App.instance.router)
+        ImageConverterPresenter(
+            ConverterJpgToPng(requireContext()),
+            MySchedulersFactory.create(),
+            App.instance.router
+        )
     }
 
     override fun onCreateView(
@@ -34,13 +38,7 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("Моя проверка", "onActivityResult сработал с параметром хоть както")
-        Log.d("Моя проверка", data?.dataString.toString())
         if (resultCode == Activity.RESULT_OK && requestCode == 1000) {
-            Log.d(
-                "Моя проверка",
-                "onActivityResult сработал с параметром " + data?.data?.path.toString()
-            )
             imageUri = data?.data
             imageUri?.let { presenter.originalImageSelected(it) }
         }
@@ -60,21 +58,17 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
         vb.btnImageSelection.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/jpg"
-            Log.d("Моя проверка", "ПЕРЕД startActivityForResult сработал с параметром ")
             startActivityForResult(intent, 1000)
-            Log.d("Моя проверка", "ПОСЛЕ startActivityForResult сработал с параметром ")
         }
         vb.btnStartConverting.setOnClickListener {
             imageUri?.let(presenter::startConvertingPressed)
         }
         vb.btnAbort.setOnClickListener {
-            Log.d("Моя проверка", "Нажата кнопка отмены")
             presenter.abortConvertImagePressed()
         }
     }
 
     override fun showOriginImage(uri: Uri) {
-        Log.d("Моя проверка", "пытаюсь вывести оригинальное изображение")
         vb.imgViewOriginalImg.setImageURI(uri)
     }
 
@@ -133,7 +127,6 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
     }
 
     override fun signWaitingShow() {
-        Log.d("Моя проверка", "Показываю заглушку ожидания")
         vb.imgViewConvertedImg.setImageURI(null)
         vb.imgViewWaitingSign.visibility = View.VISIBLE
     }

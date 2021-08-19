@@ -1,19 +1,18 @@
 package ru.vdv.myapp.mygitapiapp.imageconverter
 
 import android.net.Uri
-import android.util.Log
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
+import ru.vdv.myapp.mygitapiapp.interfaces.IMySchedulers
 import ru.vdv.myapp.mygitapiapp.interfaces.ImageConverterView
 import ru.vdv.myapp.mygitapiapp.model.ConverterJpgToPng
 
 class ImageConverterPresenter(
     private val converter: ConverterJpgToPng,
+    private val schedulers: IMySchedulers,
     val router: Router
 ) : MvpPresenter<ImageConverterView>() {
 
@@ -41,14 +40,14 @@ class ImageConverterPresenter(
      * @param imageUri - Uri конвертируемого изображения (оригинала)
      */
     fun startConvertingPressed(imageUri: Uri) {
-        Log.d("Моя проверка - ПРЕЗЕНТЕР / btnConvertImagePressed", "Передан параметр$imageUri")
         viewState.showProgressBar()
         viewState.signWaitingShow()
         viewState.signGetStartedHide()
         viewState.btnAbortConvertEnabled()
         converter
-            .convertRx(null)
-            .observeOn(AndroidSchedulers.mainThread())
+            .convertRx(imageUri)
+            .subscribeOn(schedulers.computation())
+            .observeOn(schedulers.main())
             .subscribe(object : SingleObserver<Uri> {
                 override fun onSubscribe(d: Disposable?) {
                     disposables.add(d)
@@ -61,7 +60,6 @@ class ImageConverterPresenter(
                 }
 
                 override fun onError(e: Throwable?) {
-                    Log.d("Моя проверка - ПРЕЗЕНТЕР / btnConvertImagePressed", "Поймал ошибку!!!")
                     onConvertingError(e)
                 }
             })
@@ -71,7 +69,6 @@ class ImageConverterPresenter(
      * Обработка успеха от источника
      */
     private fun onConvertingSuccess(uri: Uri) {
-        Log.d("Моя проверка", "Вызван модуль отображения успеха")
         viewState.showConvertedImage(uri)
         viewState.hideProgressBar()
         viewState.btnAbortConvertDisabled()
@@ -83,7 +80,6 @@ class ImageConverterPresenter(
      * Обработка ошибки от источника
      */
     private fun onConvertingError(e: Throwable?) {
-        Log.d("Моя проверка", "Вызван модуль отображения ошибки  $e")
         viewState.showErrorBar()
         viewState.hideProgressBar()
         viewState.btnAbortConvertDisabled()
@@ -97,12 +93,12 @@ class ImageConverterPresenter(
      * попутно скрывает прогресс бар и деактивирует кнопку прерывания процесса конвертации
      */
     fun abortConvertImagePressed() {
-        disposables.dispose()
-        disposables = CompositeDisposable()
+        schedulers.shutdown()
         viewState.hideProgressBar()
         viewState.signWaitingHide()
         viewState.btnAbortConvertDisabled()
         viewState.signAbortConvertShow()
+        schedulers.start()
     }
 
     /**
@@ -113,10 +109,6 @@ class ImageConverterPresenter(
      * скрывает ненужные сигнумы и отображает картинку заглушку ожидания результата конвертации
      */
     fun originalImageSelected(imageUri: Uri) {
-        Log.d(
-            "Моя проверка",
-            "Отрабатываю originalImageSelected с параметром" + imageUri.toString()
-        )
         viewState.showOriginImage(imageUri)
         viewState.btnStartConvertEnable()
         viewState.signAbortConvertHide()
