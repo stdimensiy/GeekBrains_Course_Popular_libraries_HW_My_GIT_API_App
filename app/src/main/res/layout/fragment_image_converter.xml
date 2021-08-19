@@ -78,7 +78,7 @@
         app:layout_constraintHorizontal_bias="0.524"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/converse_progressBar"
-        app:srcCompat="@drawable/waiting_sign" />
+        app:srcCompat="@drawable/error_sign" />
 
     <ProgressBar
         android:id="@+id/converse_progressBar"

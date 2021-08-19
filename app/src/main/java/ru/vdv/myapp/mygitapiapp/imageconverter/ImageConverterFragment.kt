@@ -19,7 +19,8 @@ import ru.vdv.myapp.mygitapiapp.model.ConverterJpgToPng
 
 class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackButtonListener {
 
-    private var vb: FragmentImageConverterBinding? = null
+    private var _vb: FragmentImageConverterBinding? = null
+    private val vb get() = _vb!!
     private var imageUri: Uri? = null
     private val presenter: ImageConverterPresenter by moxyPresenter {
         ImageConverterPresenter(ConverterJpgToPng(requireContext()), App.instance.router)
@@ -29,7 +30,7 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentImageConverterBinding.inflate(inflater, container, false).also { vb = it }.root
+    ) = FragmentImageConverterBinding.inflate(inflater, container, false).also { _vb = it }.root
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -56,86 +57,88 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView, BackB
         signGetStartedShow()
         signAbortConvertHide()
         signWaitingShow()
-        vb?.btnImageSelection?.setOnClickListener {
+        vb.btnImageSelection.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/jpg"
             Log.d("Моя проверка", "ПЕРЕД startActivityForResult сработал с параметром ")
             startActivityForResult(intent, 1000)
             Log.d("Моя проверка", "ПОСЛЕ startActivityForResult сработал с параметром ")
         }
-        vb?.btnStartConverting?.setOnClickListener {
+        vb.btnStartConverting.setOnClickListener {
             imageUri?.let(presenter::startConvertingPressed)
         }
-        vb?.btnAbort?.setOnClickListener {
+        vb.btnAbort.setOnClickListener {
             Log.d("Моя проверка", "Нажата кнопка отмены")
             presenter.abortConvertImagePressed()
         }
     }
 
     override fun showOriginImage(uri: Uri) {
-        vb?.imgViewOriginalImg?.setImageURI(uri)
+        Log.d("Моя проверка", "пытаюсь вывести оригинальное изображение")
+        vb.imgViewOriginalImg.setImageURI(uri)
     }
 
     override fun showConvertedImage(uri: Uri) {
-        vb?.imgViewConvertedImg?.setImageURI(uri)
+        vb.imgViewConvertedImg.setImageURI(uri)
     }
 
     override fun showProgressBar() {
-        vb?.progressBar2?.visibility = View.VISIBLE
+        vb.progressBar2.visibility = View.VISIBLE
     }
 
     override fun hideProgressBar() {
-        vb?.progressBar2?.visibility = View.GONE
+        vb.progressBar2.visibility = View.GONE
     }
 
     override fun showErrorBar() {
-        vb?.imgViewConvertedImg?.setImageURI(null)
-        vb?.imgViewErrorSign?.visibility = View.VISIBLE
+        vb.imgViewConvertedImg.setImageURI(null)
+        vb.imgViewErrorSign.visibility = View.VISIBLE
     }
 
     override fun hideErrorBar() {
-        vb?.imgViewErrorSign?.visibility = View.GONE
+        vb.imgViewErrorSign.visibility = View.GONE
     }
 
     override fun btnStartConvertEnable() {
-        vb?.btnStartConverting?.isEnabled = true
+        vb.btnStartConverting.isEnabled = true
     }
 
     override fun btnStartConvertDisabled() {
-        vb?.btnStartConverting?.isEnabled = false
+        vb.btnStartConverting.isEnabled = false
     }
 
     override fun btnAbortConvertEnabled() {
-        vb?.btnAbort?.isEnabled = true
+        vb.btnAbort.isEnabled = true
     }
 
     override fun btnAbortConvertDisabled() {
-        vb?.btnAbort?.isEnabled = false
+        vb.btnAbort.isEnabled = false
     }
 
     override fun signAbortConvertShow() {
-        vb?.imgViewConvertedImg?.setImageURI(null)
-        vb?.imgViewCancelSign?.visibility = View.VISIBLE
+        vb.imgViewConvertedImg.setImageURI(null)
+        vb.imgViewCancelSign.visibility = View.VISIBLE
     }
 
     override fun signAbortConvertHide() {
-        vb?.imgViewCancelSign?.visibility = View.GONE
+        vb.imgViewCancelSign.visibility = View.GONE
     }
 
     override fun signGetStartedShow() {
-        vb?.imgViewGetStartedSign?.visibility = View.VISIBLE
+        vb.imgViewGetStartedSign.visibility = View.VISIBLE
     }
 
     override fun signGetStartedHide() {
-        vb?.imgViewGetStartedSign?.visibility = View.GONE
+        vb.imgViewGetStartedSign.visibility = View.GONE
     }
 
     override fun signWaitingShow() {
-        vb?.imgViewConvertedImg?.setImageURI(null)
-        vb?.imgViewWaitingSign?.visibility = View.VISIBLE
+        Log.d("Моя проверка", "Показываю заглушку ожидания")
+        vb.imgViewConvertedImg.setImageURI(null)
+        vb.imgViewWaitingSign.visibility = View.VISIBLE
     }
 
     override fun signWaitingHide() {
-        vb?.imgViewWaitingSign?.visibility = View.GONE
+        vb.imgViewWaitingSign.visibility = View.GONE
     }
 }

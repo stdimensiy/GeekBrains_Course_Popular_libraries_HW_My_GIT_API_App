@@ -12,4 +12,5 @@
     <string name="btn_start_converting_text">Конвертировать в .PNG</string>
     <string name="btn_abort_converse_text">Прервать процесс конвертации</string>
     <string name="btn_go_to_image_converter_text">Конвертер изображений</string>
+    <string name="error_message_not_uri">Ошибка: Uri = null (не передан)</string>
 </resources>

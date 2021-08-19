@@ -47,9 +47,8 @@ class ImageConverterPresenter(
         viewState.signGetStartedHide()
         viewState.btnAbortConvertEnabled()
         converter
-            .convertRx(imageUri)
+            .convertRx(null)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
             .subscribe(object : SingleObserver<Uri> {
                 override fun onSubscribe(d: Disposable?) {
                     disposables.add(d)
@@ -57,23 +56,40 @@ class ImageConverterPresenter(
 
                 override fun onSuccess(t: Uri?) {
                     if (t != null) {
-                        viewState.showConvertedImage(t)
-                        viewState.hideProgressBar()
-                        viewState.btnAbortConvertDisabled()
-                        viewState.signAbortConvertHide()
-                        viewState.signWaitingHide()
+                        onConvertingSuccess(t)
                     }
                 }
 
                 override fun onError(e: Throwable?) {
-                    viewState.showErrorBar()
-                    viewState.hideProgressBar()
-                    viewState.btnAbortConvertDisabled()
-                    viewState.signWaitingHide()
-
+                    Log.d("Моя проверка - ПРЕЗЕНТЕР / btnConvertImagePressed", "Поймал ошибку!!!")
+                    onConvertingError(e)
                 }
             })
     }
+
+    /**
+     * Обработка успеха от источника
+     */
+    private fun onConvertingSuccess(uri: Uri) {
+        Log.d("Моя проверка", "Вызван модуль отображения успеха")
+        viewState.showConvertedImage(uri)
+        viewState.hideProgressBar()
+        viewState.btnAbortConvertDisabled()
+        viewState.signAbortConvertHide()
+        viewState.signWaitingHide()
+    }
+
+    /**
+     * Обработка ошибки от источника
+     */
+    private fun onConvertingError(e: Throwable?) {
+        Log.d("Моя проверка", "Вызван модуль отображения ошибки  $e")
+        viewState.showErrorBar()
+        viewState.hideProgressBar()
+        viewState.btnAbortConvertDisabled()
+        viewState.signWaitingHide()
+    }
+
 
     /**
      * Прерывание процесса конвертации изображения
@@ -97,6 +113,10 @@ class ImageConverterPresenter(
      * скрывает ненужные сигнумы и отображает картинку заглушку ожидания результата конвертации
      */
     fun originalImageSelected(imageUri: Uri) {
+        Log.d(
+            "Моя проверка",
+            "Отрабатываю originalImageSelected с параметром" + imageUri.toString()
+        )
         viewState.showOriginImage(imageUri)
         viewState.btnStartConvertEnable()
         viewState.signAbortConvertHide()
