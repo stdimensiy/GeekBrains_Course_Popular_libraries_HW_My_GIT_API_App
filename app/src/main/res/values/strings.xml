@@ -8,4 +8,9 @@
     <string name="textView_default_bottom_string_for_item_holder">Нижняя строка карточки</string>
     <string name="ImageView_contentDescription_add_to_favorites">Иконка статуса нахождения в избранном / отслеживаемом</string>
     <string name="ImageView_contentDescription_error">Иконка сообщающая о налицчии ошибки</string>
+    <string name="btn_image_selection_text">Выбрать изображение</string>
+    <string name="btn_start_converting_text">Конвертировать в .PNG</string>
+    <string name="btn_abort_converse_text">Прервать процесс конвертации</string>
+    <string name="btn_go_to_image_converter_text">Конвертер изображений</string>
+    <string name="error_message_not_uri">Ошибка: Uri = null (не передан)</string>
 </resources>

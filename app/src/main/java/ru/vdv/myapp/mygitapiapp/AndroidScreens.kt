@@ -2,6 +2,7 @@ package ru.vdv.myapp.mygitapiapp
 
 import com.github.terrakok.cicerone.Screen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import ru.vdv.myapp.mygitapiapp.imageconverter.ImageConverterFragment
 import ru.vdv.myapp.mygitapiapp.interfaces.IScreens
 import ru.vdv.myapp.mygitapiapp.userInfo.UserInfoFragment
 import ru.vdv.myapp.mygitapiapp.users.UsersFragment
@@ -26,4 +27,12 @@ class AndroidScreens : IScreens {
 
     override fun userInfo(userId: Int): Screen =
         FragmentScreen { UserInfoFragment.newInstance(userId) }
+
+    /**
+     *Объявление экрана конвертации изображений
+     *@return возвращает экран (Screen) соответствующего фрагмента
+     */
+
+    override fun imageConverter(): Screen =
+        FragmentScreen { ImageConverterFragment() }
 }

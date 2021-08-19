@@ -12,8 +12,14 @@ interface IScreens {
      * Экран списка пользователей (главный)
      */
     fun users(): Screen
+
     /**
      * Экран детализации информации о пользователе
      */
     fun userInfo(userId: Int): Screen
+
+    /**
+     * Экран конвертации изображений
+     */
+    fun imageConverter(): Screen
 }

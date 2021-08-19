@@ -38,6 +38,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         vb?.rvUsers?.layoutManager = LinearLayoutManager(context)
         adapter = UsersRVAdapter(presenter.usersListPresenter)
         vb?.rvUsers?.adapter = adapter
+        vb?.btnGoToImgConverter?.setOnClickListener { presenter.goToImageConverter() }
     }
 
     override fun updateList() {
