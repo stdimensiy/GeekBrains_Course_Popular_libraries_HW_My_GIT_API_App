@@ -8,21 +8,21 @@ import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.vdv.myapp.mygitapiapp.interfaces.UserInfoView
 import ru.vdv.myapp.mygitapiapp.model.GithubUserAdvanced
-import ru.vdv.myapp.mygitapiapp.model.GithubUsersRepo
+import ru.vdv.myapp.mygitapiapp.model.RetrofitGitHubUserRepo
 
 class UserInfoPresenter(
-    val userId: Int? = null,
-    private val githubUsersRepo: GithubUsersRepo,
+    val userLogin: String? = null,
+    private val githubUsersRepo: RetrofitGitHubUserRepo,
     val router: Router
 ) : MvpPresenter<UserInfoView>() {
     val disposables = CompositeDisposable()
 
     override fun onFirstViewAttach() {
-        if (userId != null) {
+        if (userLogin != null) {
             viewState.hideErrorBar()
             viewState.showProgressBar()
             githubUsersRepo
-                .getUserById(userId)
+                .getUserByLogin(userLogin)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : SingleObserver<GithubUserAdvanced> {
                     override fun onSubscribe(d: Disposable?) {

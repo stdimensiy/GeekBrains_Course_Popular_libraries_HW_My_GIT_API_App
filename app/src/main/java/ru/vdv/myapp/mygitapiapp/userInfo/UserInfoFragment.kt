@@ -11,19 +11,20 @@ import ru.vdv.myapp.mygitapiapp.App
 import ru.vdv.myapp.mygitapiapp.databinding.FragmentUserInfoBinding
 import ru.vdv.myapp.mygitapiapp.interfaces.BackButtonListener
 import ru.vdv.myapp.mygitapiapp.interfaces.UserInfoView
-import ru.vdv.myapp.mygitapiapp.model.GithubUsersRepo
+import ru.vdv.myapp.mygitapiapp.model.RetrofitGitHubUserRepo
+import ru.vdv.myapp.mygitapiapp.retrofit.GitHubApiFactory
 
 class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, BackButtonListener {
 
     companion object {
-        private const val ARG_USER = "ARG_USER_ID"
+        private const val ARG_USER = "ARG_USER_LOGIN"
 
-        fun newInstance(userId: Int) =
-            UserInfoFragment().apply { arguments = bundleOf(ARG_USER to userId) }
+        fun newInstance(userLogin: String) =
+            UserInfoFragment().apply { arguments = bundleOf(ARG_USER to userLogin) }
     }
 
-    private val userId: Int? by lazy {
-        arguments?.getInt(ARG_USER, 0)
+    private val userLogin: String? by lazy {
+        arguments?.getString(ARG_USER, "stdimensiy")
     }
 
     private var vb: FragmentUserInfoBinding? = null
@@ -38,7 +39,11 @@ class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, BackButtonListene
         }.root
 
     val presenter: UserInfoPresenter by moxyPresenter {
-        UserInfoPresenter(userId, GithubUsersRepo(), App.instance.router)
+        UserInfoPresenter(
+            userLogin,
+            RetrofitGitHubUserRepo(GitHubApiFactory.create()),
+            App.instance.router
+        )
     }
 
     override fun backPressed(): Boolean = presenter.backPressed()

@@ -1,5 +1,6 @@
 package ru.vdv.myapp.mygitapiapp.users
 
+import android.util.Log
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
@@ -7,14 +8,14 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.vdv.myapp.mygitapiapp.AndroidScreens
+import ru.vdv.myapp.mygitapiapp.interfaces.IGitHubUsersRepo
 import ru.vdv.myapp.mygitapiapp.interfaces.IUserListPresenter
 import ru.vdv.myapp.mygitapiapp.interfaces.UserItemView
 import ru.vdv.myapp.mygitapiapp.interfaces.UsersView
 import ru.vdv.myapp.mygitapiapp.model.GithubUser
-import ru.vdv.myapp.mygitapiapp.model.GithubUsersRepo
 
 class UsersPresenter(
-    val usersRepo: GithubUsersRepo,
+    val usersRepo: IGitHubUsersRepo,
     val router: Router
 ) : MvpPresenter<UsersView>() {
 
@@ -26,7 +27,7 @@ class UsersPresenter(
 
         override fun bindView(view: UserItemView) {
             val user = users[view.pos]
-            view.setLogin(user.login)
+            user.login?.let { view.setLogin(user.login) }
         }
     }
 
@@ -46,19 +47,19 @@ class UsersPresenter(
 
                 override fun onSuccess(t: List<GithubUser>?) {
                     if (t != null) {
+                        Log.d("Моя проверка в презентере", "Успех = " + t.size)
                         viewState.hideProgressBar()
                         usersListPresenter.users.addAll(t)
                         usersListPresenter.itemClickListener = { itemView ->
-                            router.navigateTo(AndroidScreens().userInfo(t[itemView.pos].id))
+                            router.navigateTo(AndroidScreens().userInfo(t[itemView.pos].login))
                         }
                         viewState.updateList()
                     }
                 }
 
                 override fun onError(e: Throwable?) {
+                    Log.d("Моя проверка в презентере", "Ошибка")
                     viewState.hideProgressBar()
-                    // тестирование получения ошибки отработано во фрагменте UserInfoFragment
-                    // на данном этапе отработка ошибки пока будет игнорироана
                 }
             })
     }

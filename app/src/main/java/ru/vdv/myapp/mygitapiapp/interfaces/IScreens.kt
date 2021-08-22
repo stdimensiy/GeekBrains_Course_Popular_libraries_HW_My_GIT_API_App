@@ -16,7 +16,7 @@ interface IScreens {
     /**
      * Экран детализации информации о пользователе
      */
-    fun userInfo(userId: Int): Screen
+    fun userInfo(userLogin: String): Screen
 
     /**
      * Экран конвертации изображений

@@ -21,12 +21,12 @@ class AndroidScreens : IScreens {
 
     /**
      *Объявление экрана детализации информации о пользователе
-     *@param userId - уникальный идентификатор пользователя в базе (Int)
+     *@param userLogin - уникальный логин пользователя в базе (String) всегда в нижнем регистре
      *@return возвращает экран (Screen) соответствующего фрагмента
      */
 
-    override fun userInfo(userId: Int): Screen =
-        FragmentScreen { UserInfoFragment.newInstance(userId) }
+    override fun userInfo(userLogin: String): Screen =
+        FragmentScreen { UserInfoFragment.newInstance(userLogin) }
 
     /**
      *Объявление экрана конвертации изображений
