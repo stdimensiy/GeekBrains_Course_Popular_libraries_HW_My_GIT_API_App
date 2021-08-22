@@ -31,7 +31,9 @@ class UserInfoPresenter(
 
                     override fun onSuccess(t: GithubUserAdvanced?) {
                         if (t != null) {
-                            t.let { viewState.showLogin(it.login) }
+                            t.let { viewState.showLogin(it.login)
+                                viewState.setImageAvatar(it.avatarUrl)
+                            }
                             viewState.showTopString("Заглушка верхей строки")
                             t.let { viewState.showCenterString(it.htmlUrl) }
                             viewState.showBottomString("Заглушка нижней строки")

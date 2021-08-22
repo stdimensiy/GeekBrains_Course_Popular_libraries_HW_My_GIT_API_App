@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.os.bundleOf
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.vdv.myapp.mygitapiapp.App
 import ru.vdv.myapp.mygitapiapp.databinding.FragmentUserInfoBinding
+import ru.vdv.myapp.mygitapiapp.glide.GlideImageLoader
 import ru.vdv.myapp.mygitapiapp.interfaces.BackButtonListener
+import ru.vdv.myapp.mygitapiapp.interfaces.IImageLoader
 import ru.vdv.myapp.mygitapiapp.interfaces.UserInfoView
 import ru.vdv.myapp.mygitapiapp.model.RetrofitGitHubUserRepo
 import ru.vdv.myapp.mygitapiapp.retrofit.GitHubApiFactory
@@ -50,6 +53,10 @@ class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, BackButtonListene
 
     override fun showLogin(text: String) {
         vb?.tvLogin?.text = text
+    }
+
+    override fun setImageAvatar(url: String): Unit = with(vb) {
+        this?.imageViewUserAvatar?.let { GlideImageLoader().loadInfo(url, it) }
     }
 
     override fun showTopString(text: String) {

@@ -1,14 +1,19 @@
 package ru.vdv.myapp.mygitapiapp.users
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.vdv.myapp.mygitapiapp.databinding.ListItemBinding
+import ru.vdv.myapp.mygitapiapp.interfaces.IImageLoader
 import ru.vdv.myapp.mygitapiapp.interfaces.IUserListPresenter
 import ru.vdv.myapp.mygitapiapp.interfaces.UserItemView
 
-class UsersRVAdapter(val presenter: IUserListPresenter) :
-    RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
+class UsersRVAdapter(
+    val presenter: IUserListPresenter,
+    val imageLoader: IImageLoader<ImageView>
+) : RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         ListItemBinding.inflate(
@@ -32,6 +37,10 @@ class UsersRVAdapter(val presenter: IUserListPresenter) :
 
         override fun setLogin(text: String) = with(vb) {
             tvLogin.text = text
+        }
+
+        override fun setImageAvatar(url: String) = with(vb) {
+            imageLoader.loadInfo(url, imageViewUserAvatar)
         }
     }
 }

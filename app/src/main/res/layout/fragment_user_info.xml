@@ -9,12 +9,11 @@
     <ImageView
         android:id="@+id/imageView_user_avatar"
         android:layout_width="330dp"
-        android:layout_height="306dp"
+        android:layout_height="330dp"
         android:contentDescription="@string/ImageView_contentDescription_go_to_details_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user_plug" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tv_login"

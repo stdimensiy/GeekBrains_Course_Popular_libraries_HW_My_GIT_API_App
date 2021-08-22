@@ -27,7 +27,10 @@ class UsersPresenter(
 
         override fun bindView(view: UserItemView) {
             val user = users[view.pos]
-            user.login?.let { view.setLogin(user.login) }
+            user.login.let {
+                view.setLogin(user.login)
+                view.setImageAvatar(user.avatarUrl)
+            }
         }
     }
 
