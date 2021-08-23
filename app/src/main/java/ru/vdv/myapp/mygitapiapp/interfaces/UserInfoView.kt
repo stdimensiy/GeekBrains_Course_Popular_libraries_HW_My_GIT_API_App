@@ -35,4 +35,14 @@ interface UserInfoView : ProgressView, ErrorView, MvpView {
      * Выводит переданный текст в нижнюю зарезеркированноу строку информационного листа
      */
     fun showBottomString(text: String)
+
+    /**
+     * Первичная инициализация списка, вызывается при присоединении View к Presenter
+     */
+    fun init()
+
+    /**
+     * Обновление содержимого списка
+     */
+    fun updateList()
 }

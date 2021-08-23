@@ -13,4 +13,6 @@
     <string name="btn_abort_converse_text">Прервать процесс конвертации</string>
     <string name="btn_go_to_image_converter_text">Конвертер изображений</string>
     <string name="error_message_not_uri">Ошибка: Uri = null (не передан)</string>
+    <string name="textView_default_name_repo_for_item_holder">Краткое наименование репозитория для холдера</string>
+    <string name="textView_default_description_repo_for_item_holder">Описание репозитория для холдера</string>
 </resources>

@@ -13,4 +13,16 @@ class RetrofitGitHubUserRepo(val api: IDataGitHubAPI) : IGitHubUsersRepo {
     override fun getUserByLogin(login: String): Single<GithubUserAdvanced> {
         return api.getUserByLogin(login).subscribeOn(MySchedulersFactory.create().io())
     }
+
+    override fun getUserRepos(
+        login: String,
+        type: String?,
+        sort: String?,
+        direction: String?,
+        perPage: Int?,
+        page: Int?
+    ): Single<List<Repository>> {
+        return api.getUserRepos(login, type, sort, direction, perPage, page)
+            .subscribeOn(MySchedulersFactory.create().io())
+    }
 }

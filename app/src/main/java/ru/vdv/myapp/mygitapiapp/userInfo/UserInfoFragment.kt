@@ -1,18 +1,18 @@
 package ru.vdv.myapp.mygitapiapp.userInfo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.os.bundleOf
+import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.vdv.myapp.mygitapiapp.App
 import ru.vdv.myapp.mygitapiapp.databinding.FragmentUserInfoBinding
 import ru.vdv.myapp.mygitapiapp.glide.GlideImageLoader
 import ru.vdv.myapp.mygitapiapp.interfaces.BackButtonListener
-import ru.vdv.myapp.mygitapiapp.interfaces.IImageLoader
 import ru.vdv.myapp.mygitapiapp.interfaces.UserInfoView
 import ru.vdv.myapp.mygitapiapp.model.RetrofitGitHubUserRepo
 import ru.vdv.myapp.mygitapiapp.retrofit.GitHubApiFactory
@@ -49,6 +49,15 @@ class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, BackButtonListene
         )
     }
 
+    var adapter: ReposRVAdapter? = null
+
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        adapter = ReposRVAdapter(presenter.reposListPresenter)
+//        vb?.rvUserRepos?.adapter = adapter
+//        Log.d("Моя проверка", "Во фрагменте адаптер назначен")
+//    }
+
     override fun backPressed(): Boolean = presenter.backPressed()
 
     override fun showLogin(text: String) {
@@ -69,6 +78,22 @@ class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, BackButtonListene
 
     override fun showBottomString(text: String) {
         vb?.textViewBottomString?.text = text
+    }
+
+    override fun init() {
+        Log.d("Моя проверка", "Начата инициализация")
+        vb?.rvUserRepos?.layoutManager = LinearLayoutManager(context)
+        adapter = ReposRVAdapter(presenter.reposListPresenter)
+        vb?.rvUserRepos?.adapter = adapter
+        Log.d("Моя проверка", "Во фрагменте адаптер назначен")
+    }
+
+    override fun updateList() {
+        Log.d(
+            "Моя проверка",
+            "Обновление списка вызван. Элементов в адаптере: " + presenter.reposListPresenter.repositories.size
+        )
+        adapter?.notifyDataSetChanged()
     }
 
     override fun showProgressBar() {
