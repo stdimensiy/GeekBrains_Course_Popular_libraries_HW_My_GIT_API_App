@@ -25,4 +25,8 @@ class RetrofitGitHubUserRepo(val api: IDataGitHubAPI) : IGitHubUsersRepo {
         return api.getUserRepos(login, type, sort, direction, perPage, page)
             .subscribeOn(MySchedulersFactory.create().io())
     }
+
+    override fun getRepositoryByUrl(url: String): Single<Repository> {
+        return api.getRepositoryByUrl(url).subscribeOn(MySchedulersFactory.create().io())
+    }
 }

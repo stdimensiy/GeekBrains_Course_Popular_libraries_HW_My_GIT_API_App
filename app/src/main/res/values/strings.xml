@@ -15,4 +15,7 @@
     <string name="error_message_not_uri">Ошибка: Uri = null (не передан)</string>
     <string name="textView_default_name_repo_for_item_holder">Краткое наименование репозитория для холдера</string>
     <string name="textView_default_description_repo_for_item_holder">Описание репозитория для холдера</string>
+    <string name="default_text_description_string_plug">описание репозитория (полное имя, описание, даты и т.п.)</string>
+    <string name="textView_default_name_repository_for_item_holder">краткое наименование репозитория для холдера</string>
+    <string name="tv_count_of_forks_string_stub">Количество форков: 100000</string>
 </resources>

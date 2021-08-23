@@ -40,6 +40,8 @@ data class Repository(
     val private: Boolean = false,
     @SerializedName("html_url")
     val htmlUrl: String,
+    @SerializedName("url")
+    val url: String,
     @SerializedName("description")
     val description: String,
     @SerializedName("forks_count")

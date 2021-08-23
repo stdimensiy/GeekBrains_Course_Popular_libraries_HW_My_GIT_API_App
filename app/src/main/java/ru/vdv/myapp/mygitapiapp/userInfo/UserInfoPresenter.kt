@@ -30,7 +30,7 @@ class UserInfoPresenter(
             val repos = repositories[view.pos]
             repos.name.let {
                 view.setName(repos.name)
-                repos.description?.let{view.setDescription((repos.description))}
+                repos.description?.let { view.setDescription((repos.description)) }
             }
         }
     }
@@ -66,10 +66,13 @@ class UserInfoPresenter(
                                         }
 
                                         override fun onSuccess(t: List<Repository>) {
-                                            viewState.showTopString("Загружено публичных репозиториев :" + t.size + " из " + iserInfo.publicRepos)
+                                            viewState.showTopString(
+                                                "Загружено публичных репозиториев :"
+                                                        + t.size + " из " + iserInfo.publicRepos
+                                            )
                                             reposListPresenter.repositories.addAll(t)
                                             reposListPresenter.itemClickListener = { itemView ->
-                                                router.navigateTo(AndroidScreens().userInfo(t[itemView.pos].name))
+                                                router.navigateTo(AndroidScreens().repoInfo(t[itemView.pos].url))
                                             }
                                             viewState.updateList()
                                         }

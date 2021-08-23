@@ -4,6 +4,7 @@ import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 import ru.vdv.myapp.mygitapiapp.model.GithubUser
 import ru.vdv.myapp.mygitapiapp.model.GithubUserAdvanced
 import ru.vdv.myapp.mygitapiapp.model.Repository
@@ -46,10 +47,8 @@ interface IDataGitHubAPI {
      * По умолчанию: asc при использовании full_name, в противном случае desc
      * @param perPage ... - (Int) количество элементов списка ответа (1...100) (по умолчани = 30)
      * @param page ...... - (Int) номер страницы результатоы ответа . По умолчанию: 1
-     * (created / updated / pushed / full_name)
-
-    Default: full_name
-     * @return возвращает список репозиториев (объект responseRepo) указанного пользователя
+     * (created / updated / pushed / full_name)    Default: full_name
+     * @return возвращает список репозиториев (объектов Repository) указанного пользователя
      * отвечающих заданным критериям...
      */
     @GET("/users/{username}/repos")
@@ -61,6 +60,16 @@ interface IDataGitHubAPI {
         @Query("per_page") perPage: Int?,
         @Query("page") page: Int?
     ): Single<List<Repository>>
+
+    /**
+     * Режим: Get a repository - получение конкретного общедоступного репозитория по указанному Url
+     * @param url ..... - (String) уникальный логин пользователя на GitHub. Всегда в нижнем регистре.
+     * @return возвращает репозиторий (объект Repository) по указанному URL
+     */
+    @GET
+    fun getRepositoryByUrl(
+        @Url url: String
+    ): Single<Repository>
 
 
 }
