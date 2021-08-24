@@ -11,8 +11,10 @@
 
 <p align="center"> ### Текущий результат (Экраны списка пользователей и информации о пользователе)  </p>
 <p align="center">
-  <img src="https://github.com/stdimensiy/GeekBrains_Course_Popular_libraries_HW_My_GIT_API_App/blob/master/snapshots/MyGit_1.jpg" width="150" title="Домашний фрагмент">
-  <img src="https://github.com/stdimensiy/GeekBrains_Course_Popular_libraries_HW_My_GIT_API_App/blob/master/snapshots/MyGit_userInfo.jpg" width="150" title="Домашний фрагмент">
+  <img src="https://github.com/stdimensiy/GeekBrains_Course_Popular_libraries_HW_My_GIT_API_App/blob/master/snapshots/MyGit_8.jpg" width="150" title="Домашний фрагмент">
+  <img src="https://github.com/stdimensiy/GeekBrains_Course_Popular_libraries_HW_My_GIT_API_App/blob/master/snapshots/MyGit_9.jpg" width="150" title="Домашний фрагмент">
+  <img src="https://github.com/stdimensiy/GeekBrains_Course_Popular_libraries_HW_My_GIT_API_App/blob/master/snapshots/MyGit_11.jpg" width="150" title="Домашний фрагмент">
+  <img src="https://github.com/stdimensiy/GeekBrains_Course_Popular_libraries_HW_My_GIT_API_App/blob/master/snapshots/MyGit_10.jpg" width="150" title="Домашний фрагмент">
 
 </p>
 
