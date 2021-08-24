@@ -13,7 +13,6 @@ import ru.vdv.myapp.mygitapiapp.interfaces.IDataGitHubAPI
 object GitHubApiFactory {
     private val gson: Gson = GsonBuilder()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        //.excludeFieldsWithoutExposeAnnotation()
         .create()
 
     fun create(): IDataGitHubAPI = Retrofit.Builder()

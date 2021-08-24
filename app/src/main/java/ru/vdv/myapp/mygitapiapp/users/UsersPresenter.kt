@@ -1,22 +1,18 @@
 package ru.vdv.myapp.mygitapiapp.users
 
-import android.util.Log
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.vdv.myapp.mygitapiapp.AndroidScreens
-import ru.vdv.myapp.mygitapiapp.interfaces.IGitHubUsersRepo
-import ru.vdv.myapp.mygitapiapp.interfaces.IUserListPresenter
-import ru.vdv.myapp.mygitapiapp.interfaces.UserItemView
-import ru.vdv.myapp.mygitapiapp.interfaces.UsersView
+import ru.vdv.myapp.mygitapiapp.interfaces.*
 import ru.vdv.myapp.mygitapiapp.model.GithubUser
 
 class UsersPresenter(
-    val usersRepo: IGitHubUsersRepo,
-    val router: Router
+    private val usersRepo: IGitHubUsersRepo,
+    private val schedulers: IMySchedulers,
+    private val router: Router
 ) : MvpPresenter<UsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
@@ -42,29 +38,34 @@ class UsersPresenter(
         viewState.init()
         viewState.showProgressBar()
         usersRepo.getUsers()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulers.main())
             .subscribe(object : SingleObserver<List<GithubUser>> {
                 override fun onSubscribe(d: Disposable?) {
                     disposables.add(d)
                 }
 
                 override fun onSuccess(t: List<GithubUser>?) {
-                    if (t != null) {
-                        Log.d("Моя проверка в презентере", "Успех = " + t.size)
-                        viewState.hideProgressBar()
-                        usersListPresenter.users.addAll(t)
-                        usersListPresenter.itemClickListener = { itemView ->
-                            router.navigateTo(AndroidScreens().userInfo(t[itemView.pos].login))
-                        }
-                        viewState.updateList()
-                    }
+                    if (t == null) return
+                    onGetUsersSuccess(t)
                 }
 
                 override fun onError(e: Throwable?) {
-                    Log.d("Моя проверка в презентере", "Ошибка")
-                    viewState.hideProgressBar()
+                    onGetUserError(e)
                 }
             })
+    }
+
+    private fun onGetUsersSuccess(listUsers: List<GithubUser>) {
+        viewState.hideProgressBar()
+        usersListPresenter.users.addAll(listUsers)
+        usersListPresenter.itemClickListener = { itemView ->
+            router.navigateTo(AndroidScreens().userInfo(listUsers[itemView.pos].login))
+        }
+        viewState.updateList()
+    }
+
+    private fun onGetUserError(e: Throwable?) {
+        viewState.hideProgressBar()
     }
 
     fun goToImageConverter() {

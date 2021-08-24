@@ -1,12 +1,12 @@
 package ru.vdv.myapp.mygitapiapp.userInfo
 
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.vdv.myapp.mygitapiapp.AndroidScreens
+import ru.vdv.myapp.mygitapiapp.interfaces.IMySchedulers
 import ru.vdv.myapp.mygitapiapp.interfaces.IReposListPresenter
 import ru.vdv.myapp.mygitapiapp.interfaces.RepoItemView
 import ru.vdv.myapp.mygitapiapp.interfaces.UserInfoView
@@ -15,11 +15,12 @@ import ru.vdv.myapp.mygitapiapp.model.Repository
 import ru.vdv.myapp.mygitapiapp.model.RetrofitGitHubUserRepo
 
 class UserInfoPresenter(
-    val userLogin: String? = null,
+    private val userLogin: String? = null,
     private val githubUsersRepo: RetrofitGitHubUserRepo,
-    val router: Router
+    private val schedulers: IMySchedulers,
+    private val router: Router
 ) : MvpPresenter<UserInfoView>() {
-    val disposables = CompositeDisposable()
+    private val disposables = CompositeDisposable()
 
     class ReposListPresenter : IReposListPresenter {
         val repositories = mutableListOf<Repository>()
@@ -44,56 +45,69 @@ class UserInfoPresenter(
             viewState.showProgressBar()
             githubUsersRepo
                 .getUserByLogin(userLogin)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulers.main())
                 .subscribe(object : SingleObserver<GithubUserAdvanced> {
                     override fun onSubscribe(d: Disposable?) {
                         disposables.add(d)
                     }
 
-                    override fun onSuccess(iserInfo: GithubUserAdvanced?) {
-                        if (iserInfo != null) {
-                            iserInfo.let {
-                                viewState.showLogin(it.login)
-                                viewState.setImageAvatar(it.avatarUrl)
-                                viewState.showTopString("Заглушка верхей строки")
-                                // Запрос состояния репозитория
-                                githubUsersRepo
-                                    .getUserRepos(userLogin, null, null, null, 99, 1)
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(object : SingleObserver<List<Repository>> {
-                                        override fun onSubscribe(d: Disposable?) {
-                                            disposables.add(d)
-                                        }
-
-                                        override fun onSuccess(t: List<Repository>) {
-                                            viewState.showTopString(
-                                                "Загружено публичных репозиториев :"
-                                                        + t.size + " из " + iserInfo.publicRepos
-                                            )
-                                            reposListPresenter.repositories.addAll(t)
-                                            reposListPresenter.itemClickListener = { itemView ->
-                                                router.navigateTo(AndroidScreens().repoInfo(t[itemView.pos].url))
-                                            }
-                                            viewState.updateList()
-                                        }
-
-                                        override fun onError(e: Throwable?) {
-                                            viewState.showTopString("Ошибка при попытке чтения спискаа репозиториев")
-                                        }
-                                    })
-                                viewState.showCenterString(it.htmlUrl)
-                                viewState.showBottomString("Заглушка нижней строки")
-                                viewState.hideProgressBar()
-                            }
+                    override fun onSuccess(userInfo: GithubUserAdvanced?) {
+                        userInfo?.let {
+                            onGetUserByLoginSuccess(it)
                         }
                     }
 
                     override fun onError(e: Throwable?) {
-                        viewState.hideProgressBar()
-                        viewState.showErrorBar()
+                        onGetUserByLoginError(e)
                     }
                 })
         }
+    }
+
+    fun onGetUserByLoginSuccess(userInfo: GithubUserAdvanced) {
+        viewState.showLogin(userInfo.login)
+        viewState.setImageAvatar(userInfo.avatarUrl)
+        viewState.showTopString("Заглушка верхей строки")
+        githubUsersRepo
+            .getUserRepos(userInfo.login, null, null, null, 99, 1)
+            .observeOn(schedulers.main())
+            .subscribe(object : SingleObserver<List<Repository>> {
+                override fun onSubscribe(d: Disposable?) {
+                    disposables.add(d)
+                }
+
+                override fun onSuccess(t: List<Repository>) {
+                    onGetUserReposSuccess(t, userInfo)
+                }
+
+                override fun onError(e: Throwable?) {
+                    onGetUserReposError(e)
+                }
+            })
+        viewState.showCenterString(userInfo.htmlUrl)
+        viewState.showBottomString("Заглушка нижней строки")
+        viewState.hideProgressBar()
+    }
+
+    fun onGetUserByLoginError(e: Throwable?) {
+        viewState.hideProgressBar()
+        viewState.showErrorBar()
+    }
+
+    fun onGetUserReposSuccess(userRepositories: List<Repository>, userInfo: GithubUserAdvanced) {
+        viewState.showTopString(
+            "Загружено публичных репозиториев :"
+                    + userRepositories.size + " из " + userInfo.publicRepos
+        )
+        reposListPresenter.repositories.addAll(userRepositories)
+        reposListPresenter.itemClickListener = { itemView ->
+            router.navigateTo(AndroidScreens().repoInfo(userRepositories[itemView.pos].url))
+        }
+        viewState.updateList()
+    }
+
+    fun onGetUserReposError(e: Throwable?) {
+        viewState.showTopString("Ошибка при попытке чтения спискаа репозиториев")
     }
 
     fun backPressed(): Boolean {

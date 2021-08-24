@@ -71,7 +71,6 @@ class RepoInfoFragment : MvpAppCompatFragment(), RepoInfoView, BackButtonListene
 
     override fun init() {
         showCountFork("Количество форков: 0")
-        showProgressBar()
         showNameRepository("Загрузка...")
     }
 

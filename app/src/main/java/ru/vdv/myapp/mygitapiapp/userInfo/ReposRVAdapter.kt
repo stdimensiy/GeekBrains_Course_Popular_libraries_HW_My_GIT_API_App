@@ -1,6 +1,5 @@
 package ru.vdv.myapp.mygitapiapp.userInfo
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +17,6 @@ class ReposRVAdapter(
             LayoutInflater.from(parent.context), parent, false
         )
     ).apply {
-        Log.d("Моя проверка", "Адаптер выполнил onCreateViewHolder")
         itemView.setOnClickListener {
             presenter.itemClickListener?.invoke(this)
         }
@@ -26,8 +24,8 @@ class ReposRVAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         presenter.bindView(holder.apply {
-            Log.d("Моя проверка", "Адаптер выполнил onBindViewHolder")
-            pos = position })
+            pos = position
+        })
 
     override fun getItemCount(): Int = presenter.getCount()
 
@@ -35,12 +33,10 @@ class ReposRVAdapter(
     inner class ViewHolder(val vb: ReposListItemBinding) : RecyclerView.ViewHolder(vb.root),
         RepoItemView {
         override fun setName(text: String) = with(vb) {
-            Log.d("Моя проверка", "Адаптер выполнил setName")
             tvName.text = text
         }
 
         override fun setDescription(text: String) = with(vb) {
-            Log.d("Моя проверка", "Адаптер выполнил setDescription")
             tvDescription.text = text
         }
 

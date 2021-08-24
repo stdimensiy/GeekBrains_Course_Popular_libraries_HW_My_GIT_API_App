@@ -1,4 +1,5 @@
 package ru.vdv.myapp.mygitapiapp.interfaces
+
 /**
  * Общий интерфейс списка репозиториев
  *

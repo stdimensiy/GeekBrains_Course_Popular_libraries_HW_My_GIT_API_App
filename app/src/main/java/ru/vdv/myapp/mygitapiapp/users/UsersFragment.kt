@@ -13,6 +13,7 @@ import ru.vdv.myapp.mygitapiapp.glide.GlideImageLoader
 import ru.vdv.myapp.mygitapiapp.interfaces.BackButtonListener
 import ru.vdv.myapp.mygitapiapp.interfaces.UsersView
 import ru.vdv.myapp.mygitapiapp.model.RetrofitGitHubUserRepo
+import ru.vdv.myapp.mygitapiapp.myschedulers.MySchedulersFactory
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     companion object {
@@ -22,6 +23,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     val presenter: UsersPresenter by moxyPresenter {
         UsersPresenter(
             RetrofitGitHubUserRepo(ru.vdv.myapp.mygitapiapp.retrofit.GitHubApiFactory.create()),
+            MySchedulersFactory.create(),
             App.instance.router
         )
     }

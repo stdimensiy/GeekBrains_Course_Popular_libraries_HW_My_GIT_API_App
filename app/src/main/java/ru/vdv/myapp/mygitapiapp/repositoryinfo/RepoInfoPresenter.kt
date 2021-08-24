@@ -31,28 +31,34 @@ class RepoInfoPresenter(
                     }
 
                     override fun onSuccess(repoInfo: Repository?) {
-                        if (repoInfo != null) {
-                            repoInfo.let {
-                                viewState.showLogin(it.owner.login)
-                                viewState.setImageAvatar(it.owner.avatarUrl)
-                                viewState.showNameRepository(it.name)
-                                viewState.showDescriptionRepository(
-                                    it.description
-                                            + " \nЗвездный рейтинг: " + it.stargazersCount
-                                            + " \nКоличество наблюдателей: " + it.watchersCount
-                                )
-                                viewState.showCountFork("Количество форков: " + it.forksCount)
-                                viewState.hideProgressBar()
-                            }
-                        }
+                        onGetRepositorySuccess(repoInfo)
                     }
 
                     override fun onError(e: Throwable?) {
-                        viewState.hideProgressBar()
-                        viewState.showErrorBar()
+                        onGetRepositoryError(e)
                     }
                 })
         }
+    }
+
+    private fun onGetRepositorySuccess(repoInfo: Repository?) {
+        repoInfo?.let {
+            viewState.showLogin(it.owner.login)
+            viewState.setImageAvatar(it.owner.avatarUrl)
+            viewState.showNameRepository(it.name)
+            viewState.showDescriptionRepository(
+                it.description
+                        + " \nЗвездный рейтинг: " + it.stargazersCount
+                        + " \nКоличество наблюдателей: " + it.watchersCount
+            )
+            viewState.showCountFork("Количество форков: " + it.forksCount)
+            viewState.hideProgressBar()
+        }
+    }
+
+    private fun onGetRepositoryError(e: Throwable?) {
+        viewState.hideProgressBar()
+        viewState.showErrorBar()
     }
 
     fun backPressed(): Boolean {
