@@ -9,12 +9,11 @@
     <ImageView
         android:id="@+id/imageView_user_avatar"
         android:layout_width="330dp"
-        android:layout_height="306dp"
+        android:layout_height="330dp"
         android:contentDescription="@string/ImageView_contentDescription_go_to_details_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user_plug" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_login"
@@ -38,34 +37,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_login" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_userRepos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewCenterString"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/textViewTopString" />
+
     <TextView
         android:id="@+id/textViewCenterString"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/textView_default_center_string_stub"
         android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/textViewBottomString"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewTopString" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewRating"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="19dp"
         android:contentDescription="@string/ImageView_contentDescription_give_a_rating"
         app:layout_constraintBottom_toBottomOf="@+id/textViewBottomString"
-        app:layout_constraintStart_toStartOf="@+id/tv_login"
-        app:layout_constraintTop_toTopOf="@+id/textViewBottomString"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
     <TextView
         android:id="@+id/textViewBottomString"
-        android:layout_width="0dp"
+        android:layout_width="347dp"
         android:layout_height="wrap_content"
         android:text="@string/textView_default_bottom_string_for_item_holder"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imageViewRating"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCenterString" />
+        app:layout_constraintStart_toEndOf="@+id/imageViewRating" />
 
     <ImageView
         android:id="@+id/imageView_ingBtn_addToFavorites"

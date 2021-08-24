@@ -9,9 +9,11 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.vdv.myapp.mygitapiapp.App
 import ru.vdv.myapp.mygitapiapp.databinding.FragmentUsersBinding
+import ru.vdv.myapp.mygitapiapp.glide.GlideImageLoader
 import ru.vdv.myapp.mygitapiapp.interfaces.BackButtonListener
 import ru.vdv.myapp.mygitapiapp.interfaces.UsersView
-import ru.vdv.myapp.mygitapiapp.model.GithubUsersRepo
+import ru.vdv.myapp.mygitapiapp.model.RetrofitGitHubUserRepo
+import ru.vdv.myapp.mygitapiapp.myschedulers.MySchedulersFactory
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     companion object {
@@ -19,7 +21,11 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(GithubUsersRepo(), App.instance.router)
+        UsersPresenter(
+            RetrofitGitHubUserRepo(ru.vdv.myapp.mygitapiapp.retrofit.GitHubApiFactory.create()),
+            MySchedulersFactory.create(),
+            App.instance.router
+        )
     }
     var adapter: UsersRVAdapter? = null
     private var vb: FragmentUsersBinding? = null
@@ -36,7 +42,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun init() {
         vb?.rvUsers?.layoutManager = LinearLayoutManager(context)
-        adapter = UsersRVAdapter(presenter.usersListPresenter)
+        adapter = UsersRVAdapter(presenter.usersListPresenter, GlideImageLoader())
         vb?.rvUsers?.adapter = adapter
         vb?.btnGoToImgConverter?.setOnClickListener { presenter.goToImageConverter() }
     }

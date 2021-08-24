@@ -16,6 +16,12 @@ interface UserInfoView : ProgressView, ErrorView, MvpView {
     fun showLogin(text: String)
 
     /**
+     * Метод устанавливает картинку аватара пользователя
+     * @param url  - адрес (URL) изображения (аватара пользователя)
+     */
+    fun setImageAvatar(url: String)
+
+    /**
      * Выводит переданный текст в верхню зарезеркированноу строку информационного листа
      */
     fun showTopString(text: String)
@@ -29,4 +35,14 @@ interface UserInfoView : ProgressView, ErrorView, MvpView {
      * Выводит переданный текст в нижнюю зарезеркированноу строку информационного листа
      */
     fun showBottomString(text: String)
+
+    /**
+     * Первичная инициализация списка, вызывается при присоединении View к Presenter
+     */
+    fun init()
+
+    /**
+     * Обновление содержимого списка
+     */
+    fun updateList()
 }

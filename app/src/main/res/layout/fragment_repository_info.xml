@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/iv_user_avatar"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:contentDescription="@string/ImageView_contentDescription_go_to_details_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_default_login_user_for_item_holder"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_user_avatar"
+        app:layout_constraintEnd_toStartOf="@+id/iv_user_avatar"
+        app:layout_constraintTop_toTopOf="@+id/iv_user_avatar" />
+
+    <TextView
+        android:id="@+id/tv_name_repository"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_default_name_repository_for_item_holder"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_user_avatar" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/default_text_description_string_plug"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_name_repository" />
+
+    <TextView
+        android:id="@+id/tv_count_of_forks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_count_of_forks_string_stub"
+        android:textColor="#303F9F"
+        android:textStyle="italic"
+        app:layout_constraintTop_toBottomOf="@+id/tv_description"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView_Error"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="704dp"
+        android:contentDescription="@string/ImageView_contentDescription_error"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_twotone_error_24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,25 +5,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.vdv.myapp.mygitapiapp.App
 import ru.vdv.myapp.mygitapiapp.databinding.FragmentUserInfoBinding
+import ru.vdv.myapp.mygitapiapp.glide.GlideImageLoader
 import ru.vdv.myapp.mygitapiapp.interfaces.BackButtonListener
 import ru.vdv.myapp.mygitapiapp.interfaces.UserInfoView
-import ru.vdv.myapp.mygitapiapp.model.GithubUsersRepo
+import ru.vdv.myapp.mygitapiapp.model.RetrofitGitHubUserRepo
+import ru.vdv.myapp.mygitapiapp.myschedulers.MySchedulersFactory
+import ru.vdv.myapp.mygitapiapp.retrofit.GitHubApiFactory
 
 class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, BackButtonListener {
 
     companion object {
-        private const val ARG_USER = "ARG_USER_ID"
+        private const val ARG_USER = "ARG_USER_LOGIN"
 
-        fun newInstance(userId: Int) =
-            UserInfoFragment().apply { arguments = bundleOf(ARG_USER to userId) }
+        fun newInstance(userLogin: String) =
+            UserInfoFragment().apply { arguments = bundleOf(ARG_USER to userLogin) }
     }
 
-    private val userId: Int? by lazy {
-        arguments?.getInt(ARG_USER, 0)
+    private val userLogin: String? by lazy {
+        arguments?.getString(ARG_USER, "stdimensiy")
     }
 
     private var vb: FragmentUserInfoBinding? = null
@@ -38,13 +42,24 @@ class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, BackButtonListene
         }.root
 
     val presenter: UserInfoPresenter by moxyPresenter {
-        UserInfoPresenter(userId, GithubUsersRepo(), App.instance.router)
+        UserInfoPresenter(
+            userLogin,
+            RetrofitGitHubUserRepo(GitHubApiFactory.create()),
+            MySchedulersFactory.create(),
+            App.instance.router
+        )
     }
+
+    var adapter: ReposRVAdapter? = null
 
     override fun backPressed(): Boolean = presenter.backPressed()
 
     override fun showLogin(text: String) {
         vb?.tvLogin?.text = text
+    }
+
+    override fun setImageAvatar(url: String): Unit = with(vb) {
+        this?.imageViewUserAvatar?.let { GlideImageLoader().loadInfo(url, it) }
     }
 
     override fun showTopString(text: String) {
@@ -57,6 +72,16 @@ class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, BackButtonListene
 
     override fun showBottomString(text: String) {
         vb?.textViewBottomString?.text = text
+    }
+
+    override fun init() {
+        vb?.rvUserRepos?.layoutManager = LinearLayoutManager(context)
+        adapter = ReposRVAdapter(presenter.reposListPresenter)
+        vb?.rvUserRepos?.adapter = adapter
+    }
+
+    override fun updateList() {
+        adapter?.notifyDataSetChanged()
     }
 
     override fun showProgressBar() {
@@ -74,5 +99,4 @@ class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, BackButtonListene
     override fun hideErrorBar() {
         this.vb?.imageViewError?.visibility = View.GONE
     }
-
 }
